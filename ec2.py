@@ -118,10 +118,10 @@ class EC2Instance(object):
         scheduled = True
         now = datetime.now()
         if self.properties['Availability'] == 'weekday':
-            if now.weekday() not in range(0,5) or now.hour not in range(7,19):
+            if now.weekday() not in range(0,5) or now.hour not in range(7,20):
                 scheduled = False
         elif self.properties['Availability'] == 'out-of-hours':
-            if now.weekday() in range(0,5) or now.hour in range(7,19):
+            if now.weekday() in range(0,5) or now.hour in range(7,20):
                 scheduled = False
         self.scheduled = scheduled
         return
