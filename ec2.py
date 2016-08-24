@@ -11,7 +11,7 @@ class EC2Instance(object):
         self.expires = False
         self.expired = False
         self.managed = False
-        self.schedued = True
+        self.scheduled = True
         self.validate()
         self._checkExpires()
         self._checkManaged()
