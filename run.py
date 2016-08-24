@@ -23,11 +23,11 @@ def checkSchedule(EC2Instance):
     """ Checks machine schedule and carries out power on/shutdown action """
     if EC2Instance.managed:
         if EC2Instance.state['Name'] == 'stopped' and EC2Instance.scheduled:
-            #EC2Instance.start()
-            logger.warn('%s - Instance started to match schedule.' % EC2Instance.id)
+            EC2Instance.start()
+            logger.info('%s - Instance started to match schedule.' % EC2Instance.id)
         elif EC2Instance.state['Name'] == 'running' and not EC2Instance.scheduled:
-            #EC2Instance.stop()
-            logger.warn('%s - Instance stopped to match schedule.' % EC2Instance.id)
+            EC2Instance.stop()
+            logger.info('%s - Instance stopped to match schedule.' % EC2Instance.id)
     return None
 
 def checkCreator(EC2Instance):
@@ -56,6 +56,7 @@ def checkExpires(EC2Instance):
 ################################################################################
 
 if __name__ == '__main__':
+    logger.warn('Scheduler started.')
     # Create connection to AWS
     ec2 = boto3.resource('ec2')
     # Create instances iterable
@@ -63,7 +64,7 @@ if __name__ == '__main__':
     # Instance loop
     for instance in instances:
         i = EC2Instance(instance)
-        logger.info('%s - Checking instance...' % i.id)
         checkExpires(i)
         checkCreator(i)
         checkSchedule(i)
+    logger.info('Scheduler completed.')
