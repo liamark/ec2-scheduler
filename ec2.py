@@ -11,7 +11,7 @@ class EC2Instance(object):
         self.expires = False
         self.expired = False
         self.managed = False
-        self.schedued = True
+        self.scheduled = True
         self.validate()
         self._checkExpires()
         self._checkManaged()
@@ -117,11 +117,30 @@ class EC2Instance(object):
         """ Checks if machine is scheduled to be available """
         scheduled = True
         now = datetime.now()
-        if self.properties['Availability'] == 'weekday':
-            if now.weekday() not in range(0,5) or now.hour not in range(7,19):
+
+        # Default schedules for each environment
+        defaults = {
+        'development': 'weekday',
+        'integration': 'weekday',
+        'preview':     'weekday',
+        'preproduction' 'always',
+        'production':   'always'
+        }
+
+        # Set availability from tag if it's available.
+        availability = self.properties['Availability']
+
+        # If availability is simply set as default, look up what the default
+        # schedule is for that environment.
+        if availability == 'default':
+            availability = defaults[environment]
+
+        # Identify if the instance should be running based on it's schedule.
+        if availability == 'weekday':
+            if now.weekday() not in range(0,5) or now.hour not in range(7,20):
                 scheduled = False
-        elif self.properties['Availability'] == 'out-of-hours':
-            if now.weekday() in range(0,5) or now.hour in range(7,19):
+        elif availability == 'out-of-hours':
+            if now.weekday() in range(0,5) or now.hour in range(7,20):
                 scheduled = False
         self.scheduled = scheduled
         return
