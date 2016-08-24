@@ -129,6 +129,7 @@ class EC2Instance(object):
 
         # Set availability from tag if it's available.
         availability = self.properties['Availability']
+        environment  = self.properties['Environment']
 
         # If availability is simply set as default, look up what the default
         # schedule is for that environment.
