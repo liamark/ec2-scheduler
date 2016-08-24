@@ -120,11 +120,11 @@ class EC2Instance(object):
 
         # Default schedules for each environment
         defaults = {
-        'development': 'weekday',
-        'integration': 'weekday',
-        'preview':     'weekday',
-        'preproduction' 'always',
-        'production':   'always'
+        'development':   'weekday',
+        'integration':   'weekday',
+        'preview':       'weekday',
+        'preproduction': 'always',
+        'production':    'always'
         }
 
         # Set availability from tag if it's available.
