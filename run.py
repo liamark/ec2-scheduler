@@ -56,7 +56,7 @@ def checkExpires(EC2Instance):
 ################################################################################
 
 if __name__ == '__main__':
-    logger.warn('Scheduler started.')
+    logger.info('Scheduler started.')
     # Create connection to AWS
     ec2 = boto3.resource('ec2')
     # Create instances iterable
