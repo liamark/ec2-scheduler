@@ -24,19 +24,19 @@ def checkSchedule(EC2Instance):
     if EC2Instance.managed:
         if EC2Instance.state['Name'] == 'stopped' and EC2Instance.scheduled:
             EC2Instance.start()
-            logger.info('%s - Instance started to match schedule.' % EC2Instance.id)
+            logger.info('%s - Instance started - %s' % (EC2Instance.id, EC2Instance.properties['Name']))
         elif EC2Instance.state['Name'] == 'running' and not EC2Instance.scheduled:
             EC2Instance.stop()
-            logger.info('%s - Instance stopped to match schedule.' % EC2Instance.id)
+            logger.info('%s - Instance stopped - %s' % (EC2Instance.id, EC2Instance.properties['Name']))
     return None
 
 def checkCreator(EC2Instance):
     """ Updates creator field if possible """
     if EC2Instance.properties['Creator'] == 'unknown':
         creator = EC2Instance.creator()
-        logger.warn('%s - Creator information incorrect.' % EC2Instance.id)
+        logger.warn('%s - Creator information incorrect - %s' % (EC2Instance.id, EC2Instance.properties['Name']))
         if creator:
-            logger.info('%s - Created by %s' % (EC2Instance.id, creator))
+            logger.info('%s - Created by %s - %s' % (EC2Instance.id, creator, EC2Instance.properties['Name']))
             EC2Instance.properties['Creator'] = creator
             EC2Instance.update()
     return None
@@ -45,9 +45,9 @@ def checkExpires(EC2Instance):
     """ Checks if machines have expired and then terminates them """
     if EC2Instance.expired:
         EC2Instance.properties['Tag'] = 'Value'
-        logger.warn('%s - Instance expirary date has passed.' % EC2Instance.id)
+        logger.warn('%s - Instance expired - %s' % (EC2Instance.id, EC2Instance.properties['Name']))
         # EC2Instance.terminate()
-        logger.warn('%s - Instance terminated.' % EC2Instance.id)
+        logger.warn('%s - Instance terminated - %s' % (EC2Instance.id, EC2Instance.properties['Name']))
     return None
 
 
