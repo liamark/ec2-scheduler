@@ -117,12 +117,14 @@ class EC2Instance(object):
         """ Checks if machine is scheduled to be available """
         scheduled = True
         now = datetime.now()
+        workingdays = range(0,5)
+        workinghours = range(7,20)
 
         # Default schedules for each environment
         defaults = {
-        'development':   'weekday',
-        'integration':   'weekday',
-        'preview':       'weekday',
+        'development':   'weekdays',
+        'integration':   'weekdays',
+        'preview':       'weekdays',
         'preproduction': 'always',
         'production':    'always'
         }
@@ -137,11 +139,11 @@ class EC2Instance(object):
             availability = defaults[environment]
 
         # Identify if the instance should be running based on it's schedule.
-        if availability == 'weekday':
-            if now.weekday() not in range(0,5) or now.hour not in range(7,20):
+        if availability == 'weekdays':
+            if now.weekday() not in workingdays or now.hour not in workinghours:
                 scheduled = False
         elif availability == 'out-of-hours':
-            if now.weekday() in range(0,5) or now.hour in range(7,20):
+            if now.weekday() in workingdays and now.hour in workinghours:
                 scheduled = False
         self.scheduled = scheduled
         return
