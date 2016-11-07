@@ -45,5 +45,5 @@ objects and allows for some intelligent management of services.
 
 Expires should be set to UTC dates.
 
-environment:  production / preproduction / preview / integration / development
+environment:  production / preproduction / preview / integration / development  
 availability: always / weekdays/ out-of-hours / default
