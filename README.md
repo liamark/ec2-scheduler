@@ -45,5 +45,14 @@ objects and allows for some intelligent management of services.
 
 Expires should be set to UTC dates.
 
+## Availability:
+
+The following schedules are available:
+- `always` *instances run on 24/7 operation*
+- `weekdays` *instances run between 07:00 and 20:00 Monday to Friday*
+- `out-of-hours` *instances run on the opposite schedule to `weekdays`*
+- `everyday` *instances run between 07:00 and 22:00 every day*
+- `default` *schedule depends on environment tag*
+
 environment:  production / preproduction / preview / integration / development  
 availability: always / weekdays/ out-of-hours / default

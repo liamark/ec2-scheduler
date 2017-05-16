@@ -66,7 +66,7 @@ class EC2Instance(object):
             'Expires'
         ]
         strict = {
-            'Availability': ['default', 'always', 'weekdays', 'out-of-hours'],
+            'Availability': ['default', 'always', 'weekdays', 'out-of-hours', 'everyday'],
             'Environment': ['development', 'integration', 'preview', 'preproduction', 'production'],
             'Managed': ['yes', 'no']
         }
@@ -144,6 +144,9 @@ class EC2Instance(object):
                 scheduled = False
         elif availability == 'out-of-hours':
             if now.weekday() in workingdays and now.hour in workinghours:
+                scheduled = False
+        elif availability == 'everyday':
+            if now.hour < 7 or now.hour > 22: # 07:00-22:00 on any day of the week.
                 scheduled = False
         self.scheduled = scheduled
         return
