@@ -146,7 +146,7 @@ class EC2Instance(object):
             if now.weekday() in workingdays and now.hour in workinghours:
                 scheduled = False
         elif availability == 'everyday':
-            if now.hour < 7 or now.hour > 22: # 07:00-22:00 on any day of the week.
+            if now.hour not in range(7,22): # 07:00-22:00 on any day of the week.
                 scheduled = False
         self.scheduled = scheduled
         return
