@@ -145,6 +145,7 @@ if __name__ == '__main__':
     instances = ec2.instances.all()
     # Instance loop
     for instance in instances:
+        logger.info('Inspecting instance %s ...' % instance.id)
         i = EC2Instance(instance)
         checkExpires(i)
         checkCreator(i)
