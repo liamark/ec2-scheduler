@@ -145,11 +145,12 @@ if __name__ == '__main__':
     instances = ec2.instances.all()
     # Instance loop
     for instance in instances:
-        logger.info('%s - Inspecting instance...' % instance.id)
-        i = EC2Instance(instance)
-        checkExpires(i)
-        checkCreator(i)
-        checkSchedule(i)
+        if not instance.state['Name'] == 'terminated':
+            logger.info('%s - Inspecting instance...' % instance.id)
+            i = EC2Instance(instance)
+            checkExpires(i)
+            checkCreator(i)
+            checkSchedule(i)
     logger.info('Scheduler completed.')
     result = report()
     if result and slack_token:
