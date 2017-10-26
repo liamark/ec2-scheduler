@@ -72,8 +72,9 @@ class EC2Instance(object):
         }
 
         # Populate self.properties dictionary from self.tags
-        for tag in self.tags:
-            self.properties[tag['Key']] = tag['Value']
+        if self.tags is not None:
+            for tag in self.tags:
+                self.properties[tag['Key']] = tag['Value']
 
         # Set all free fields that are not currently defined to 'Unknown'.
         missing = list(field for field in free if field not in self.properties)
